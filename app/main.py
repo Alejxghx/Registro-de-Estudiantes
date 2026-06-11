@@ -35,6 +35,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+#cada bloque es una ventanilla que atiende peticiones esta es nuestra apirest
+#Tu API REST = ese programa corriendo y esperando peticiones. Alguien le manda "GET /api/estudiantes" y el programa responde con la lista en JSON. Eso es todo lo que es una API: un programa que recibe peticiones HTTP y responde datos.
+#El programa main.py (FastAPI) con sus 5 ventanillas
 
 @app.get("/api/health", tags=["sistema"])
 def health():
