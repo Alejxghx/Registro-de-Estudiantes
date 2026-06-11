@@ -1,4 +1,8 @@
-const API = "/api/estudiantes";
+// Si el frontend se aloja separado del backend (S3, Cloud Run, etc.),
+// poner aquí la URL pública de la API, p. ej. "http://IP_EC2:8000"
+const API_BASE = "";
+
+const API = `${API_BASE}/api/estudiantes`;
 
 const formulario = document.getElementById("formulario");
 const lista = document.getElementById("lista-estudiantes");

@@ -6,7 +6,7 @@ import sqlite3
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app import database
@@ -24,6 +24,15 @@ app = FastAPI(
     description="API REST con FastAPI desplegada en AWS con CI/CD (GitHub Actions).",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+# CORS: permite que el frontend funcione aunque esté alojado en otro dominio
+# (por ejemplo S3 o Cloud Run, separado del backend en EC2)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -61,10 +70,6 @@ def eliminar_estudiante(estudiante_id: int):
         raise HTTPException(status_code=404, detail="Estudiante no encontrado")
 
 
-# Frontend: formulario de registro servido como archivos estáticos
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-@app.get("/", include_in_schema=False)
-def index():
-    return FileResponse("static/index.html")
+# En local sirve también el frontend; en producción (escenario B) el frontend
+# vive en Cloud Run y este mount simplemente no se usa.
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
