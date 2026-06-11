@@ -62,8 +62,8 @@ Conectarse por SSH y ejecutar:
 
 ```bash
 sudo apt update && sudo apt install -y python3-venv git
-git clone https://github.com/TU_USUARIO/Proyect_arquitectura.git
-cd Proyect_arquitectura
+git clone https://github.com/Alejxghx/Registro-de-Estudiantes.git
+cd Registro-de-Estudiantes
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
