@@ -1,0 +1,165 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  min-height: 100vh;
+  color: #1e293b;
+  padding: 2rem 1rem;
+}
+
+.contenedor {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+header {
+  text-align: center;
+  color: #fff;
+}
+
+header h1 {
+  font-size: 1.8rem;
+}
+
+.subtitulo {
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.tarjeta {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #1e3a5f;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.fila {
+  display: flex;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid #2563eb;
+  border-color: transparent;
+}
+
+button {
+  width: 100%;
+  padding: 0.7rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.mensaje {
+  margin-top: 0.8rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.mensaje.exito {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.mensaje.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.oculto {
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  color: #475569;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.vacio {
+  text-align: center;
+  color: #94a3b8;
+  padding: 1.5rem;
+}
+
+.btn-eliminar {
+  width: auto;
+  padding: 0.3rem 0.6rem;
+  background: #ef4444;
+  font-size: 0.8rem;
+}
+
+.btn-eliminar:hover {
+  background: #dc2626;
+}
+
+footer {
+  text-align: center;
+}
+
+footer a {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
