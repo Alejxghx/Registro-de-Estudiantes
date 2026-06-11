@@ -1,6 +1,6 @@
-// Si el frontend se aloja separado del backend (S3, Cloud Run, etc.),
-// poner aquí la URL pública de la API, p. ej. "http://IP_EC2:8000"
-const API_BASE = "";
+// URL pública de la API (CloudFront con HTTPS delante de la EC2).
+// Dejar vacío "" para desarrollo local.
+const API_BASE = "https://d3cgsyx6f70cts.cloudfront.net";
 
 const API = `${API_BASE}/api/estudiantes`;
 
