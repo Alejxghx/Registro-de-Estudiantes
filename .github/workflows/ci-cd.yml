@@ -44,25 +44,5 @@ jobs:
             pip install -r requirements.txt
             sudo systemctl restart registro-estudiantes
 
-  desplegar-frontend:
-    name: Despliegue del frontend en Cloud Run (CD)
-    needs: pruebas
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v4
-
-      - name: Autenticarse en Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Desplegar en Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: registro-frontend
-          region: us-central1
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          source: ./frontend
-          flags: --allow-unauthenticated
+  # El frontend se despliega automáticamente con la integración de
+  # Cloud Build de Google Cloud Run, conectada a este mismo repositorio.

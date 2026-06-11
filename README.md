@@ -2,7 +2,15 @@
 
 Proyecto del curso **5to. Modelado Ágil del Software**.
 
-API REST construida con **FastAPI** desplegada en **AWS EC2** (backend), frontend desplegado en **Google Cloud Run**, y **CI/CD mediante GitHub Actions**.
+API REST construida con **FastAPI** desplegada en **AWS EC2** (backend), frontend desplegado en **Google Cloud Run**, y **CI/CD mediante GitHub Actions** y **Cloud Build**.
+
+## 🌐 URLs de producción
+
+| Componente | URL |
+|---|---|
+| **Frontend (entrega)** | <https://registro-de-estudiantes-frontend-327379982878.us-south1.run.app> |
+| API (HTTPS vía CloudFront) | <https://d3cgsyx6f70cts.cloudfront.net/api/health> |
+| Documentación Swagger | <https://d3cgsyx6f70cts.cloudfront.net/docs> |
 
 ## Arquitectura
 
@@ -105,17 +113,11 @@ const API_BASE = "https://TU_DISTRIBUCION.cloudfront.net";
 
 Hacer commit y push de ese cambio.
 
-### Primer despliegue (manual)
+### Despliegue continuo desde GitHub (Cloud Build)
 
-1. Crear un proyecto en <https://console.cloud.google.com> y habilitar facturación (Cloud Run tiene capa gratuita generosa).
-2. Instalar [gcloud CLI](https://cloud.google.com/sdk/docs/install) y ejecutar `gcloud init`.
-3. Desde la raíz del proyecto:
+Desde la consola web de Cloud Run: **Crear servicio** → **"Implementar de forma continua desde un repositorio"** → conectar el repo de GitHub (rama `main`, tipo Dockerfile, directorio `/frontend`) → **permitir invocaciones no autenticadas**.
 
-```bash
-gcloud run deploy registro-frontend --source frontend --region us-central1 --allow-unauthenticated
-```
-
-Al terminar te dará la URL pública del frontend (ej. `https://registro-frontend-xxxx-uc.a.run.app`). **Esa URL es la que entregas en la tarea.**
+Con esto, cada push a `main` reconstruye y redespliega el frontend automáticamente. La URL pública del servicio es la entrega de la tarea.
 
 ## Despliegue — Paso 4: CI/CD con GitHub Actions
 
@@ -126,21 +128,13 @@ En el repositorio de GitHub → **Settings** → **Secrets and variables** → *
 | `EC2_HOST` | IP pública de la instancia EC2 |
 | `EC2_USER` | `ubuntu` |
 | `EC2_SSH_KEY` | Contenido completo del archivo `.pem` |
-| `GCP_PROJECT_ID` | ID del proyecto de Google Cloud |
-| `GCP_SA_KEY` | JSON de una service account de GCP |
 
-Para crear la service account de GCP: consola → **IAM y administración** → **Cuentas de servicio** → crear con los roles **Cloud Run Admin**, **Cloud Build Editor**, **Service Account User** y **Storage Admin** → **Claves** → crear clave JSON y pegar su contenido en el secret.
+(El permiso de `systemctl restart` sin contraseña ya está configurado en la EC2 vía `/etc/sudoers.d/registro-deploy`.)
 
-Para que `systemctl restart` no pida contraseña en la EC2, ejecutar `sudo visudo` y agregar al final:
+A partir de ahí, cada `git push` a `main` dispara dos pipelines en paralelo:
 
-```
-ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart registro-estudiantes
-```
-
-A partir de ahí, cada `git push` a `main`:
-
-1. **CI**: ejecuta las pruebas con pytest.
-2. **CD**: si pasan, despliega en paralelo el backend (SSH a EC2) y el frontend (Cloud Run).
+1. **GitHub Actions** — CI: pruebas con pytest; CD: si pasan, despliega el backend por SSH en EC2.
+2. **Cloud Build** — reconstruye y redespliega el frontend en Cloud Run.
 
 ## Estructura del proyecto
 
